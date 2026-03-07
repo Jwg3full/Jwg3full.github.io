@@ -7,52 +7,43 @@
 <style>
 
 body{
-background:linear-gradient(180deg,#000,#1a1a1a);
-color:white;
-font-family:Arial, Helvetica, sans-serif;
 margin:0;
-padding:0;
+font-family:Arial, Helvetica, sans-serif;
+background:black;
+color:white;
 text-align:center;
 overflow-x:hidden;
+}
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+z-index:0;
 }
 
 .container{
 max-width:700px;
 margin:auto;
-padding:80px 20px;
+padding:100px 20px;
+position:relative;
+z-index:2;
 }
 
 #timer{
-font-size:45px;
+font-size:46px;
 margin-bottom:40px;
 }
 
 .section{
-margin-top:40px;
+display:none;
 font-size:20px;
 line-height:1.8;
+margin-top:40px;
 white-space:pre-line;
-display:none;
 }
 
-/* efeito digitação */
-
-.typewriter{
-overflow:hidden;
-border-right:2px solid white;
-animation:typing 4s steps(40,end), blink .8s infinite;
-}
-
-@keyframes typing{
-from{width:0}
-to{width:100%}
-}
-
-@keyframes blink{
-50%{border-color:transparent}
-}
-
-/* tela de senha */
+/* senha */
 
 #login{
 position:fixed;
@@ -65,32 +56,45 @@ display:flex;
 align-items:center;
 justify-content:center;
 flex-direction:column;
-z-index:10;
+z-index:5;
 }
 
 input{
 padding:12px;
 font-size:18px;
-border:none;
-outline:none;
 }
 
 button{
-padding:10px 25px;
-margin-top:10px;
+padding:12px 24px;
+margin:10px;
+font-size:18px;
 cursor:pointer;
-font-size:16px;
+border:none;
+border-radius:6px;
 }
 
-/* estrelas */
+/* botões finais */
 
-#stars{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-z-index:-1;
+#sim{
+background:#ff4d6d;
+color:white;
+}
+
+#nao{
+background:#444;
+color:white;
+position:absolute;
+}
+
+/* cursor digitação */
+
+.cursor{
+border-right:2px solid white;
+animation:blink 1s infinite;
+}
+
+@keyframes blink{
+50%{border-color:transparent}
 }
 
 </style>
@@ -98,7 +102,7 @@ z-index:-1;
 
 <body>
 
-<canvas id="stars"></canvas>
+<canvas id="sky"></canvas>
 
 <div id="login">
 <h2>Digite a senha</h2>
@@ -110,28 +114,23 @@ z-index:-1;
 
 <div id="timer"></div>
 
-<div id="dia2" class="section typewriter">
-
+<div id="dia2" class="section">
 engraçado como algumas pessoas entram na nossa vida
 sem fazer muito barulho
 e quando a gente percebe
 já mudaram tudo.
-
 </div>
 
-<div id="dia25" class="section typewriter">
-
+<div id="dia25" class="section">
 eu não sei exatamente em qual momento isso aconteceu
 mas em algum ponto
 você se tornou
 uma das partes mais importantes do meu dia.
 
 amanhã eu conto mais.
-
 </div>
 
-<div id="dia3" class="section typewriter">
-
+<div id="dia3" class="section">
 tem um momento estranho
 que acontece quando alguém começa
 a se tornar importante pra gente
@@ -155,11 +154,9 @@ você.
 
 amanhã eu te conto
 uma das coisas que mais gosto em você.
-
 </div>
 
-<div id="dia4" class="section typewriter">
-
+<div id="dia4" class="section">
 ontem eu disse que iria te contar
 algumas coisas que eu gosto em você.
 
@@ -181,30 +178,40 @@ como você deixa tudo mais leve
 seu carinho
 o fato de você ser você
 ...
-
 </div>
 
-<div id="dia5" class="section typewriter">
-
+<div id="dia5" class="section">
 obrigado por fazer parte desses dias.
 quem sabe a gente se vê por ai.
 
 por aqui, acabou... eu acho.
-
 </div>
 
-<div id="dia6" class="section typewriter">
+<div id="dia6" class="section">
 
-você é bem curiosa ein?
+talvez você tenha percebido
+que essa história foi sendo contada
+aos poucos
 
-eu disse que tinha acabado.
+um dia de cada vez
 
-ja que você tá tão interessada assim
-quero ver o quanto você tá disposta
-a chegar no final dessa historia
+e se você chegou até aqui
+significa que você também
+quis saber como ela termina
 
-vamos pra praia,
-quero ver o nascer do sol com você.
+a verdade é que
+essa história
+não tem um final
+
+porque eu quero continuar
+escrevendo ela com você
+
+então eu tenho só uma pergunta...
+
+<div style="margin-top:40px; position:relative; height:120px;" id="botoes">
+<button id="sim">SIM</button>
+<button id="nao">NÃO</button>
+</div>
 
 </div>
 
@@ -215,19 +222,16 @@ quero ver o nascer do sol com você.
 /* senha */
 
 function check(){
-const s=document.getElementById("senha").value
-
-if(s==="21/12"){
+if(document.getElementById("senha").value==="21/12"){
 document.getElementById("login").style.display="none"
 }else{
 alert("senha errada")
 }
 }
 
-/* data inicio */
+/* datas */
 
-const start=new Date("2026-03-03")
-
+const start=new Date("2026-03-07")
 const end=new Date(start)
 end.setDate(end.getDate()+6)
 
@@ -239,68 +243,168 @@ const diff=Math.floor((now-start)/(1000*60*60*24))
 function updateTimer(){
 
 const now=new Date()
-const distance=end-now
+const dist=end-now
 
-const days=Math.floor(distance/(1000*60*60*24))
-const hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60))
-const minutes=Math.floor((distance%(1000*60*60))/(1000*60))
-const seconds=Math.floor((distance%(1000*60))/1000)
+const d=Math.floor(dist/(1000*60*60*24))
+const h=Math.floor((dist%(1000*60*60*24))/(1000*60*60))
+const m=Math.floor((dist%(1000*60*60))/(1000*60))
+const s=Math.floor((dist%(1000*60))/1000)
 
-document.getElementById("timer").innerHTML=
-days+"d "+hours+"h "+minutes+"m "+seconds+"s"
+document.getElementById("timer").innerHTML=d+"d "+h+"h "+m+"m "+s+"s"
 
 }
 
 setInterval(updateTimer,1000)
 
-/* mostrar texto + scroll */
+/* digitação */
+
+function digitar(el,texto){
+
+let i=0
+el.innerHTML=""
+
+const cursor=document.createElement("span")
+cursor.className="cursor"
+el.appendChild(cursor)
+
+function escrever(){
+
+if(i<texto.length){
+cursor.insertAdjacentText("beforebegin",texto[i])
+i++
+setTimeout(escrever,30)
+}
+
+}
+
+escrever()
+
+}
+
+/* mostrar */
 
 function mostrar(id){
 
 const el=document.getElementById(id)
+const txt=el.innerText
 
 el.style.display="block"
+digitar(el,txt)
 
 setTimeout(()=>{
 el.scrollIntoView({behavior:"smooth"})
-},500)
+},900)
 
 }
 
-if(diff>=1){mostrar("dia2")}
-if(diff>=2){mostrar("dia25")}
-if(diff>=3){mostrar("dia3")}
-if(diff>=4){mostrar("dia4")}
-if(diff>=5){mostrar("dia5")}
-if(diff>=6){mostrar("dia6")}
+/* lógica dos dias */
 
-/* estrelas */
+if(diff===1) mostrar("dia2")
+else if(diff===2) mostrar("dia25")
+else if(diff===3) mostrar("dia3")
+else if(diff===4) mostrar("dia4")
+else if(diff===5) mostrar("dia5")
 
-const canvas=document.getElementById("stars")
+else if(diff>=6){
+
+mostrar("dia2")
+setTimeout(()=>mostrar("dia25"),2000)
+setTimeout(()=>mostrar("dia3"),4000)
+setTimeout(()=>mostrar("dia4"),6000)
+setTimeout(()=>mostrar("dia5"),8000)
+setTimeout(()=>mostrar("dia6"),10000)
+
+}
+
+/* céu animado */
+
+const canvas=document.getElementById("sky")
 const ctx=canvas.getContext("2d")
 
 canvas.width=window.innerWidth
 canvas.height=window.innerHeight
 
 let stars=[]
+let meteors=[]
 
 for(let i=0;i<150;i++){
 
 stars.push({
 x:Math.random()*canvas.width,
 y:Math.random()*canvas.height,
-r:Math.random()*1.5
+r:Math.random()*1.5,
+blink:Math.random()
 })
 
 }
 
-function draw(){
+function spawnMeteor(){
 
-ctx.clearRect(0,0,canvas.width,canvas.height)
+meteors.push({
+x:Math.random()*canvas.width,
+y:0,
+vx:-6,
+vy:6,
+life:80
+})
 
-ctx.fillStyle="white"
+}
+
+setInterval(()=>{
+if(Math.random()<0.4) spawnMeteor()
+},4000)
+
+let sunY=canvas.height+100
+
+function drawSunrise(){
+
+let grad=ctx.createLinearGradient(0,0,0,canvas.height)
+
+grad.addColorStop(0,"#87CEEB")
+grad.addColorStop(1,"#ffcc66")
+
+ctx.fillStyle=grad
+ctx.fillRect(0,0,canvas.width,canvas.height)
+
+sunY-=0.3
+
+ctx.beginPath()
+ctx.arc(canvas.width/2,sunY,80,0,Math.PI*2)
+ctx.fillStyle="#FFD700"
+ctx.fill()
+
+}
+
+function drawSunset(){
+
+let grad=ctx.createLinearGradient(0,0,0,canvas.height)
+
+grad.addColorStop(0,"#ff9966")
+grad.addColorStop(1,"#330000")
+
+ctx.fillStyle=grad
+ctx.fillRect(0,0,canvas.width,canvas.height)
+
+sunY+=0.2
+
+ctx.beginPath()
+ctx.arc(canvas.width/2,sunY,80,0,Math.PI*2)
+ctx.fillStyle="#FFD27F"
+ctx.fill()
+
+}
+
+function drawStars(){
+
+ctx.fillStyle="black"
+ctx.fillRect(0,0,canvas.width,canvas.height)
 
 stars.forEach(s=>{
+
+s.blink+=0.05
+let alpha=(Math.sin(s.blink)+1)/2
+
+ctx.fillStyle="rgba(255,255,255,"+alpha+")"
 
 ctx.beginPath()
 ctx.arc(s.x,s.y,s.r,0,Math.PI*2)
@@ -308,11 +412,105 @@ ctx.fill()
 
 })
 
-requestAnimationFrame(draw)
+}
+
+function drawMeteors(){
+
+meteors.forEach((m,i)=>{
+
+ctx.strokeStyle="white"
+
+ctx.beginPath()
+ctx.moveTo(m.x,m.y)
+ctx.lineTo(m.x+20,m.y-20)
+ctx.stroke()
+
+m.x+=m.vx
+m.y+=m.vy
+m.life--
+
+if(m.life<0) meteors.splice(i,1)
+
+})
 
 }
 
-draw()
+function loop(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height)
+
+if(diff===0){
+drawSunset()
+}
+
+else if(diff>=1 && diff<=4){
+drawStars()
+drawMeteors()
+}
+
+else{
+drawSunrise()
+}
+
+requestAnimationFrame(loop)
+
+}
+
+loop()
+
+/* botão não foge */
+
+const nao=document.getElementById("nao")
+
+nao.addEventListener("mouseover",()=>{
+
+const area=document.getElementById("botoes")
+
+const x=Math.random()*(area.clientWidth-80)
+const y=Math.random()*(area.clientHeight-40)
+
+nao.style.left=x+"px"
+nao.style.top=y+"px"
+
+})
+
+/* botão sim corações */
+
+const sim=document.getElementById("sim")
+
+sim.addEventListener("click",()=>{
+
+for(let i=0;i<40;i++){
+
+const heart=document.createElement("div")
+
+heart.innerHTML="❤️"
+
+heart.style.position="fixed"
+heart.style.left=Math.random()*window.innerWidth+"px"
+heart.style.top=window.innerHeight+"px"
+heart.style.fontSize="30px"
+heart.style.pointerEvents="none"
+
+document.body.appendChild(heart)
+
+let pos=window.innerHeight
+
+const anim=setInterval(()=>{
+
+pos-=4
+heart.style.top=pos+"px"
+
+if(pos<0){
+clearInterval(anim)
+heart.remove()
+}
+
+},16)
+
+}
+
+})
 
 </script>
 
