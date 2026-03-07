@@ -7,32 +7,52 @@
 <style>
 
 body{
-background: linear-gradient(180deg,#000,#1a1a1a);
+background:linear-gradient(180deg,#000,#1a1a1a);
 color:white;
-font-family: Arial, Helvetica, sans-serif;
+font-family:Arial, Helvetica, sans-serif;
 margin:0;
 padding:0;
 text-align:center;
+overflow-x:hidden;
 }
 
 .container{
 max-width:700px;
 margin:auto;
-padding:60px 20px;
+padding:80px 20px;
+}
+
+#timer{
+font-size:45px;
+margin-bottom:40px;
 }
 
 .section{
-margin-top:120px;
+margin-top:40px;
 font-size:20px;
-line-height:1.7;
+line-height:1.8;
 white-space:pre-line;
 display:none;
 }
 
-#timer{
-font-size:40px;
-margin-top:100px;
+/* efeito digitação */
+
+.typewriter{
+overflow:hidden;
+border-right:2px solid white;
+animation:typing 4s steps(40,end), blink .8s infinite;
 }
+
+@keyframes typing{
+from{width:0}
+to{width:100%}
+}
+
+@keyframes blink{
+50%{border-color:transparent}
+}
+
+/* tela de senha */
 
 #login{
 position:fixed;
@@ -45,23 +65,40 @@ display:flex;
 align-items:center;
 justify-content:center;
 flex-direction:column;
+z-index:10;
 }
 
 input{
-padding:10px;
+padding:12px;
 font-size:18px;
+border:none;
+outline:none;
 }
 
 button{
-padding:10px 20px;
+padding:10px 25px;
 margin-top:10px;
 cursor:pointer;
+font-size:16px;
+}
+
+/* estrelas */
+
+#stars{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-1;
 }
 
 </style>
 </head>
 
 <body>
+
+<canvas id="stars"></canvas>
 
 <div id="login">
 <h2>Digite a senha</h2>
@@ -71,14 +108,19 @@ cursor:pointer;
 
 <div class="container">
 
+<div id="timer"></div>
 
-<div id="dia2" class="section">
+<div id="dia2" class="section typewriter">
 
 engraçado como algumas pessoas entram na nossa vida
 sem fazer muito barulho
 e quando a gente percebe
 já mudaram tudo.
-<div id="timer"></div>
+
+</div>
+
+<div id="dia25" class="section typewriter">
+
 eu não sei exatamente em qual momento isso aconteceu
 mas em algum ponto
 você se tornou
@@ -88,8 +130,7 @@ amanhã eu conto mais.
 
 </div>
 
-  
-<div id="dia3" class="section">
+<div id="dia3" class="section typewriter">
 
 tem um momento estranho
 que acontece quando alguém começa
@@ -117,7 +158,7 @@ uma das coisas que mais gosto em você.
 
 </div>
 
-<div id="dia4" class="section">
+<div id="dia4" class="section typewriter">
 
 ontem eu disse que iria te contar
 algumas coisas que eu gosto em você.
@@ -143,7 +184,7 @@ o fato de você ser você
 
 </div>
 
-<div id="dia5" class="section">
+<div id="dia5" class="section typewriter">
 
 obrigado por fazer parte desses dias.
 quem sabe a gente se vê por ai.
@@ -152,7 +193,7 @@ por aqui, acabou... eu acho.
 
 </div>
 
-<div id="dia6" class="section">
+<div id="dia6" class="section typewriter">
 
 você é bem curiosa ein?
 
@@ -171,8 +212,11 @@ quero ver o nascer do sol com você.
 
 <script>
 
+/* senha */
+
 function check(){
 const s=document.getElementById("senha").value
+
 if(s==="21/12"){
 document.getElementById("login").style.display="none"
 }else{
@@ -180,13 +224,17 @@ alert("senha errada")
 }
 }
 
-const start=new Date("2026-03-04") // DIA 1
-const now=new Date()
+/* data inicio */
 
-const diff=Math.floor((now-start)/(1000*60*60*24))
+const start=new Date("2026-03-03")
 
 const end=new Date(start)
 end.setDate(end.getDate()+6)
+
+const now=new Date()
+const diff=Math.floor((now-start)/(1000*60*60*24))
+
+/* cronometro */
 
 function updateTimer(){
 
@@ -205,30 +253,68 @@ days+"d "+hours+"h "+minutes+"m "+seconds+"s"
 
 setInterval(updateTimer,1000)
 
-if(diff>=1){
-document.getElementById("dia2").style.display="block"
+/* mostrar texto + scroll */
+
+function mostrar(id){
+
+const el=document.getElementById(id)
+
+el.style.display="block"
+
+setTimeout(()=>{
+el.scrollIntoView({behavior:"smooth"})
+},500)
+
 }
 
-if(diff>=2){
-document.getElementById("dia3").style.display="block"
+if(diff>=1){mostrar("dia2")}
+if(diff>=2){mostrar("dia25")}
+if(diff>=3){mostrar("dia3")}
+if(diff>=4){mostrar("dia4")}
+if(diff>=5){mostrar("dia5")}
+if(diff>=6){mostrar("dia6")}
+
+/* estrelas */
+
+const canvas=document.getElementById("stars")
+const ctx=canvas.getContext("2d")
+
+canvas.width=window.innerWidth
+canvas.height=window.innerHeight
+
+let stars=[]
+
+for(let i=0;i<150;i++){
+
+stars.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*1.5
+})
+
 }
 
-if(diff>=3){
-document.getElementById("dia4").style.display="block"
+function draw(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height)
+
+ctx.fillStyle="white"
+
+stars.forEach(s=>{
+
+ctx.beginPath()
+ctx.arc(s.x,s.y,s.r,0,Math.PI*2)
+ctx.fill()
+
+})
+
+requestAnimationFrame(draw)
+
 }
 
-if(diff>=4){
-document.getElementById("dia5").style.display="block"
-}
-
-if(diff>=5){
-document.getElementById("dia6").style.display="block"
-}
+draw()
 
 </script>
 
 </body>
 </html>
-
-
-
