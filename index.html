@@ -1,100 +1,135 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
+
 <head>
 <meta charset="UTF-8">
-<title>...</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Uma pergunta...</title>
 
 <style>
 
 body{
 margin:0;
-font-family:Arial, Helvetica, sans-serif;
-background:black;
-color:white;
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+font-family:Arial;
 text-align:center;
-overflow-x:hidden;
+color:white;
+overflow:hidden;
+transition:background 4s;
 }
 
-canvas{
-position:fixed;
-top:0;
-left:0;
-z-index:0;
-}
+/* fundo */
 
-.container{
-max-width:700px;
-margin:auto;
-padding:100px 20px;
-position:relative;
-z-index:2;
-}
+.day1{background:linear-gradient(#ff9966,#ffcc66);}
+.day2{background:linear-gradient(#ff9966,#ffcc66);}
+.day3{background:linear-gradient(#6b7fd7,#3a3f87);}
+.day4{background:linear-gradient(#1c1f3a,#000);}
+.day5{background:linear-gradient(#000010,#000);}
+.day6{background:linear-gradient(#ffd89b,#19547b);}
 
-#timer{
-font-size:46px;
-margin-bottom:40px;
-}
+/* texto */
 
-.section{
-display:none;
-font-size:20px;
-line-height:1.8;
-margin-top:40px;
+#text{
+line-height:1.6;
+font-size:22px;
+max-width:90%;
+min-height:120px;
+padding:10px;
 white-space:pre-line;
 }
 
-/* senha */
+/* cronometro */
 
-#login{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:black;
-display:flex;
-align-items:center;
-justify-content:center;
-flex-direction:column;
-z-index:5;
+#timer{
+margin-top:15px;
+font-size:16px;
+opacity:0.9;
 }
 
-input{
-padding:12px;
-font-size:18px;
+/* estrelas */
+
+.star{
+position:fixed;
+width:3px;
+height:3px;
+background:white;
+border-radius:50%;
+animation:blink 2s infinite alternate;
+}
+
+@keyframes blink{
+0%{opacity:0.3}
+100%{opacity:1}
+}
+
+/* lua */
+
+.moon{
+position:fixed;
+top:80px;
+right:50px;
+width:60px;
+height:60px;
+background:white;
+border-radius:50%;
+box-shadow:0 0 20px white;
+}
+
+/* botões */
+
+.buttons{
+margin-top:40px;
+display:none;
+gap:25px;
+flex-wrap:wrap;
+justify-content:center;
 }
 
 button{
-padding:12px 24px;
-margin:10px;
-font-size:18px;
-cursor:pointer;
+font-size:22px;
+padding:12px 30px;
 border:none;
-border-radius:6px;
+border-radius:12px;
+cursor:pointer;
 }
 
-/* botões finais */
-
-#sim{
+#yes{
 background:#ff4d6d;
 color:white;
 }
 
-#nao{
+#no{
 background:#444;
 color:white;
 position:absolute;
 }
 
-/* cursor digitação */
+/* corações */
 
-.cursor{
-border-right:2px solid white;
-animation:blink 1s infinite;
+.heart{
+position:fixed;
+font-size:26px;
+color:red;
+animation:float 3s linear forwards;
 }
 
-@keyframes blink{
-50%{border-color:transparent}
+@keyframes float{
+
+0%{
+transform:translateY(0);
+opacity:1;
+}
+
+100%{
+transform:translateY(-300px);
+opacity:0;
+}
+
 }
 
 </style>
@@ -102,411 +137,184 @@ animation:blink 1s infinite;
 
 <body>
 
-<canvas id="sky"></canvas>
-
-<div id="login">
-<h2>Digite a senha</h2>
-<input id="senha" type="password">
-<button onclick="check()">Entrar</button>
-</div>
-
-<div class="container">
+<div id="text"></div>
 
 <div id="timer"></div>
 
-<div id="dia2" class="section">
-engraçado como algumas pessoas entram na nossa vida
-sem fazer muito barulho
-e quando a gente percebe
-já mudaram tudo.
-</div>
-
-<div id="dia25" class="section">
-eu não sei exatamente em qual momento isso aconteceu
-mas em algum ponto
-você se tornou
-uma das partes mais importantes do meu dia.
-
-amanhã eu conto mais.
-</div>
-
-<div id="dia3" class="section">
-tem um momento estranho
-que acontece quando alguém começa
-a se tornar importante pra gente
-
-você começa a perceber
-que aquela pessoa aparece
-em pensamentos aleatórios do dia
-numa música
-numa piada
-num lugar
-
-e quando percebe
-ela já faz parte da sua rotina
-mesmo quando não está por perto
-
-em algum momento
-isso começou a acontecer comigo
-
-e era sempre
-você.
-
-amanhã eu te conto
-uma das coisas que mais gosto em você.
-</div>
-
-<div id="dia4" class="section">
-ontem eu disse que iria te contar
-algumas coisas que eu gosto em você.
-
-mas vamos ser honestos…
-
-você realmente achou
-que seria só uma?
-
-algumas das POUCAS coisas que eu gosto em você:
-
-seu sorriso
-o jeito que você fala das coisas que gosta
-quando você ri de verdade
-seu olhar
-a forma como você me acalma
-seu jeito de implicar comigo
-sua voz
-como você deixa tudo mais leve
-seu carinho
-o fato de você ser você
-...
-</div>
-
-<div id="dia5" class="section">
-obrigado por fazer parte desses dias.
-quem sabe a gente se vê por ai.
-
-por aqui, acabou... eu acho.
-</div>
-
-<div id="dia6" class="section">
-
-talvez você tenha percebido
-que essa história foi sendo contada
-aos poucos
-
-um dia de cada vez
-
-e se você chegou até aqui
-significa que você também
-quis saber como ela termina
-
-a verdade é que
-essa história
-não tem um final
-
-porque eu quero continuar
-escrevendo ela com você
-
-então eu tenho só uma pergunta...
-
-<div style="margin-top:40px; position:relative; height:120px;" id="botoes">
-<button id="sim">SIM</button>
-<button id="nao">NÃO</button>
-</div>
-
-</div>
-
+<div class="buttons">
+<button id="yes">SIM</button>
+<button id="no">NÃO</button>
 </div>
 
 <script>
 
-/* senha */
+/* MENSAGENS */
 
-function check(){
-if(document.getElementById("senha").value==="21/12"){
-document.getElementById("login").style.display="none"
+const messages = [
+
+"Oi... eu queria te falar uma coisa.",
+
+"engraçado como algumas pessoas entram na nossa vida sem fazer muito barulho e quando a gente percebe já mudaram tudo.  \neu não sei exatamente em qual momento isso aconteceu mas em algum ponto você se tornou uma das partes mais importantes do meu dia. \n\namanhã eu conto mais.",
+
+"tem um momento estranho que acontece quando alguém começa a se tornar importante pra gente você começa a perceber que aquela pessoa aparece em pensamentos aleatórios do dia numa música numa piada num lugar e quando percebe ela já faz parte da sua rotina mesmo quando não está por perto em algum momento isso começou a acontecer comigo e era sempre você.\n\n amanhã eu te conto uma das coisas que mais gosto em você.",
+
+"ontem eu disse que iria te contar algumas coisas que eu gosto em você. mas vamos ser honestos… você realmente achou que seria só uma?\n algumas das POUCAS coisas que eu gosto em você: \n seu sorriso\n\nseu olhar\n\nseu jeito de falar\n\nsua risada\n\nsua voz\n\nseu carinho\n\nsua gentileza\n\nsua atenção\n\nseu jeito único\n\nsua inteligência\n\nsua sensibilidade\n\nsua sinceridade\n\nsua presença\n\nsua calma\n\nsua energia\n\nseu humor\n\nseu jeito de enxergar o mundo\n\nsua forma de cuidar das pessoas\n\nseu jeito de me ouvir\n\na forma como você se importa\n\nseu abraço\n\nseu jeito de andar\n\nsua autenticidade\n\nsua simplicidade\n\nsua beleza\n\nsua delicadeza\n\nsua paciência\n\nseu olhar atento\n\nseu jeito de rir das coisas\n\nsua forma de conversar\n\nsua empatia\n\nseu jeito de surpreender\n\nsua criatividade\n\nsua forma de demonstrar carinho\n\nsua espontaneidade\n\nsua sinceridade no olhar\n\nseu jeito de ser leve\n\nsua forma de tornar momentos simples especiais\n\nseu brilho\n\nsua companhia\n\nseu bom coração\n\nsua forma de me entender\n\nsua maturidade\n\nseu jeito doce\n\nsua forma de animar o ambiente\n\nsua elegância\n\nsua humildade\n\nseu jeito de pensar\n\nsua forma de ver o lado bom das coisas\n\nseu jeito de demonstrar afeto\n\nsua forma de fazer o tempo passar rápido\n\nsua forma de tornar tudo mais interessante\n\nseu jeito de cuidar\n\nsua forma de escutar\n\nseu jeito de se expressar\n\nsua forma de demonstrar atenção\n\nsua presença tranquila\n\nseu olhar sincero\n\nsua forma de se preocupar\n\nsua forma de dar valor às coisas\n\nseu jeito verdadeiro\n\nsua forma de enxergar detalhes\n\nseu jeito de alegrar o dia\n\nsua forma de tratar as pessoas\n\nsua maneira de se importar\n\nsua forma de demonstrar consideração\n\nsua forma de fazer tudo parecer mais leve\n\nseu jeito de estar presente\n\nsua forma de demonstrar cuidado\n\nseu jeito de prestar atenção nos detalhes\n\nsua forma de valorizar momentos\n\nsua forma de enxergar beleza nas coisas simples\n\nseu jeito de demonstrar carinho nas pequenas coisas\n\nsua forma de transformar um dia comum em algo especial\n\nsua forma de fazer companhia\n\nseu sorriso… de novo\n\n e mesmo depois de tudo isso\nainda parece que faltam coisas pra dizer.\n\nmas talvez não precise dizer tudo hoje.\n\nafinal…\namanhã é o último dia.",
+
+"obrigado por fazer parte desses dias. quem sabe a gente se vê por ai. por aqui, acabou... eu acho.",
+
+"você é bem curiosa ein? eu disse que tinha acabado. ja que você tá tão interessada assim quero ver o quanto você tá disposta a chegar no final dessa historia vamos pra praia, quero ver o nascer do sol com você."
+
+]
+
+/* DATA */
+
+let today = 6
+
+let day
+
+if(today <= 1) day = 1
+else if(today == 2) day = 2
+else if(today == 3) day = 3
+else if(today == 4) day = 4
+else if(today == 5) day = 5
+else day = 6
+
+document.body.className="day"+day
+
+/* estrelas */
+
+if(day>=4){
+
+for(let i=0;i<60;i++){
+
+let star=document.createElement("div")
+
+star.className="star"
+
+star.style.left=Math.random()*100+"vw"
+star.style.top=Math.random()*100+"vh"
+
+document.body.appendChild(star)
+
+}
+
+}
+
+/* lua */
+
+if(day>=4){
+
+let moon=document.createElement("div")
+
+moon.className="moon"
+
+document.body.appendChild(moon)
+
+}
+
+/* DIGITAÇÃO */
+
+const text=document.getElementById("text")
+
+function typeWriter(msg,i=0,callback){
+
+if(i < msg.length){
+
+text.innerHTML += msg.charAt(i)
+
+setTimeout(()=>typeWriter(msg,i+1,callback),40)
+
 }else{
-alert("senha errada")
+
+if(callback) callback()
+
 }
+
 }
 
-/* datas */
+/* MOSTRAR TEXTO */
 
-const start=new Date("2026-03-01")
-const end=new Date(start)
-end.setDate(end.getDate()+6)
+if(day < 6){
 
-const now=new Date()
-const diff=Math.floor((now-start)/(1000*60*60*24))
+typeWriter(messages[day-1])
 
-/* cronometro */
+}else{
+
+typeWriter(messages.join("\n\n"),0,()=>{
+
+document.querySelector(".buttons").style.display="flex"
+
+})
+
+}
+
+/* CRONOMETRO */
+
+const timer=document.getElementById("timer")
+
+if(day < 6){
 
 function updateTimer(){
 
-const now=new Date()
-const dist=end-now
+let now=new Date()
 
-const d=Math.floor(dist/(1000*60*60*24))
-const h=Math.floor((dist%(1000*60*60*24))/(1000*60*60))
-const m=Math.floor((dist%(1000*60*60))/(1000*60))
-const s=Math.floor((dist%(1000*60))/1000)
+let tomorrow=new Date()
 
-document.getElementById("timer").innerHTML=d+"d "+h+"h "+m+"m "+s+"s"
+tomorrow.setHours(24,0,0,0)
+
+let diff=tomorrow-now
+
+let h=Math.floor(diff/1000/60/60)
+let m=Math.floor(diff/1000/60)%60
+let s=Math.floor(diff/1000)%60
+
+timer.innerHTML="Próxima mensagem em: "+h+"h "+m+"m "+s+"s"
 
 }
 
 setInterval(updateTimer,1000)
 
-/* digitação */
-
-function digitar(el,texto){
-
-let i=0
-el.innerHTML=""
-
-const cursor=document.createElement("span")
-cursor.className="cursor"
-el.appendChild(cursor)
-
-function escrever(){
-
-if(i<texto.length){
-cursor.insertAdjacentText("beforebegin",texto[i])
-i++
-setTimeout(escrever,30)
-}
+updateTimer()
 
 }
 
-escrever()
+/* BOTÃO NÃO */
+
+const no=document.getElementById("no")
+
+function moveNo(){
+
+let x=Math.random()*(window.innerWidth-80)
+let y=Math.random()*(window.innerHeight-60)
+
+no.style.left=x+"px"
+no.style.top=y+"px"
 
 }
 
-/* mostrar */
+no.addEventListener("mouseover",moveNo)
+no.addEventListener("touchstart",moveNo)
 
-function mostrar(id){
+/* BOTÃO SIM */
 
-const el=document.getElementById(id)
-const txt=el.innerText
+const yes=document.getElementById("yes")
 
-el.style.display="block"
-digitar(el,txt)
+yes.addEventListener("click",()=>{
 
-setTimeout(()=>{
-el.scrollIntoView({behavior:"smooth"})
-},900)
+for(let i=0;i<30;i++){
 
-}
+let heart=document.createElement("div")
 
-/* lógica dos dias */
+heart.className="heart"
 
-if(diff===1) mostrar("dia2")
-else if(diff===2) mostrar("dia25")
-else if(diff===3) mostrar("dia3")
-else if(diff===4) mostrar("dia4")
-else if(diff===5) mostrar("dia5")
+heart.innerHTML="❤"
 
-else if(diff>=6){
-
-mostrar("dia2")
-setTimeout(()=>mostrar("dia25"),2000)
-setTimeout(()=>mostrar("dia3"),4000)
-setTimeout(()=>mostrar("dia4"),6000)
-setTimeout(()=>mostrar("dia5"),8000)
-setTimeout(()=>mostrar("dia6"),10000)
-
-}
-
-/* céu animado */
-
-const canvas=document.getElementById("sky")
-const ctx=canvas.getContext("2d")
-
-canvas.width=window.innerWidth
-canvas.height=window.innerHeight
-
-let stars=[]
-let meteors=[]
-
-for(let i=0;i<150;i++){
-
-stars.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-r:Math.random()*1.5,
-blink:Math.random()
-})
-
-}
-
-function spawnMeteor(){
-
-meteors.push({
-x:Math.random()*canvas.width,
-y:0,
-vx:-6,
-vy:6,
-life:80
-})
-
-}
-
-setInterval(()=>{
-if(Math.random()<0.4) spawnMeteor()
-},4000)
-
-let sunY=canvas.height+100
-
-function drawSunrise(){
-
-let grad=ctx.createLinearGradient(0,0,0,canvas.height)
-
-grad.addColorStop(0,"#87CEEB")
-grad.addColorStop(1,"#ffcc66")
-
-ctx.fillStyle=grad
-ctx.fillRect(0,0,canvas.width,canvas.height)
-
-sunY-=0.3
-
-ctx.beginPath()
-ctx.arc(canvas.width/2,sunY,80,0,Math.PI*2)
-ctx.fillStyle="#FFD700"
-ctx.fill()
-
-}
-
-function drawSunset(){
-
-let grad=ctx.createLinearGradient(0,0,0,canvas.height)
-
-grad.addColorStop(0,"#ff9966")
-grad.addColorStop(1,"#330000")
-
-ctx.fillStyle=grad
-ctx.fillRect(0,0,canvas.width,canvas.height)
-
-sunY+=0.2
-
-ctx.beginPath()
-ctx.arc(canvas.width/2,sunY,80,0,Math.PI*2)
-ctx.fillStyle="#FFD27F"
-ctx.fill()
-
-}
-
-function drawStars(){
-
-ctx.fillStyle="black"
-ctx.fillRect(0,0,canvas.width,canvas.height)
-
-stars.forEach(s=>{
-
-s.blink+=0.05
-let alpha=(Math.sin(s.blink)+1)/2
-
-ctx.fillStyle="rgba(255,255,255,"+alpha+")"
-
-ctx.beginPath()
-ctx.arc(s.x,s.y,s.r,0,Math.PI*2)
-ctx.fill()
-
-})
-
-}
-
-function drawMeteors(){
-
-meteors.forEach((m,i)=>{
-
-ctx.strokeStyle="white"
-
-ctx.beginPath()
-ctx.moveTo(m.x,m.y)
-ctx.lineTo(m.x+20,m.y-20)
-ctx.stroke()
-
-m.x+=m.vx
-m.y+=m.vy
-m.life--
-
-if(m.life<0) meteors.splice(i,1)
-
-})
-
-}
-
-function loop(){
-
-ctx.clearRect(0,0,canvas.width,canvas.height)
-
-if(diff===0){
-drawSunset()
-}
-
-else if(diff>=1 && diff<=4){
-drawStars()
-drawMeteors()
-}
-
-else{
-drawSunrise()
-}
-
-requestAnimationFrame(loop)
-
-}
-
-loop()
-
-/* botão não foge */
-
-const nao=document.getElementById("nao")
-
-nao.addEventListener("mouseover",()=>{
-
-const area=document.getElementById("botoes")
-
-const x=Math.random()*(area.clientWidth-80)
-const y=Math.random()*(area.clientHeight-40)
-
-nao.style.left=x+"px"
-nao.style.top=y+"px"
-
-})
-
-/* botão sim corações */
-
-const sim=document.getElementById("sim")
-
-sim.addEventListener("click",()=>{
-
-for(let i=0;i<40;i++){
-
-const heart=document.createElement("div")
-
-heart.innerHTML="❤️"
-
-heart.style.position="fixed"
 heart.style.left=Math.random()*window.innerWidth+"px"
-heart.style.top=window.innerHeight+"px"
-heart.style.fontSize="30px"
-heart.style.pointerEvents="none"
+heart.style.top=Math.random()*window.innerHeight+"px"
 
 document.body.appendChild(heart)
 
-let pos=window.innerHeight
-
-const anim=setInterval(()=>{
-
-pos-=4
-heart.style.top=pos+"px"
-
-if(pos<0){
-clearInterval(anim)
-heart.remove()
-}
-
-},16)
+setTimeout(()=>heart.remove(),3000)
 
 }
 
@@ -516,4 +324,3 @@ heart.remove()
 
 </body>
 </html>
-
