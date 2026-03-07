@@ -1,36 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Surpresa ❤️</title>
+<title>Uma surpresa pra você ❤️</title>
+
 <style>
+
 body{
-    text-align:center;
-    font-family:Arial;
-    background:#111;
+    margin:0;
+    background: linear-gradient(135deg,#ff4e88,#7a3cff);
+    font-family: Arial;
     color:white;
+    text-align:center;
 }
+
+.container{
+    margin-top:80px;
+}
+
+h1{
+    font-size:40px;
+}
+
 img{
     width:300px;
-    margin:20px;
+    border-radius:15px;
+    margin-top:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.4);
 }
+
+.box{
+    margin-top:40px;
+}
+
 </style>
 </head>
 
 <body>
 
-<h1>Uma surpresa está acontecendo ❤️</h1>
+<div class="container">
 
-<p id="contador"></p>
+<h1>Uma surpresa está chegando ❤️</h1>
 
-<div id="dia2" style="display:none;">
-<h2>Nossa primeira foto</h2>
+<h2 id="contador"></h2>
+
+<div id="dia2" class="box" style="display:none;">
+<h2>Primeira lembrança</h2>
 <img src="foto1.jpg">
+<p>Esse foi um momento especial pra mim.</p>
 </div>
 
-<div id="dia3" style="display:none;">
-<h2>Uma lembrança especial</h2>
-<p>Desde que te conheci tudo mudou.</p>
+<div id="dia3" class="box" style="display:none;">
+<h2>Outro momento lindo</h2>
+<img src="foto2.jpg">
+<p>Cada momento contigo é incrível.</p>
+</div>
+
+<div id="dia4" class="box" style="display:none;">
+<h2>Mais uma memória</h2>
+<img src="foto3.jpg">
+<p>Eu amo criar memórias contigo.</p>
+</div>
+
+<div id="dia6" class="box" style="display:none;">
+<h1>💌 Surpresa Final 💌</h1>
+<p style="font-size:22px; max-width:600px; margin:auto;">
+Desde que você entrou na minha vida tudo ficou mais bonito.
+Esses dias foram só um lembrete de quanto você é especial pra mim.
+❤️
+</p>
+</div>
+
 </div>
 
 <script>
@@ -41,14 +81,22 @@ const hoje = new Date();
 const diff = Math.floor((hoje - inicio) / (1000*60*60*24)) + 1;
 
 document.getElementById("contador").innerText =
-"Dia " + diff + " da surpresa";
+"Estamos no dia " + diff + " da surpresa";
 
 if(diff >= 2){
- document.getElementById("dia2").style.display="block";
+document.getElementById("dia2").style.display="block";
 }
 
 if(diff >= 3){
- document.getElementById("dia3").style.display="block";
+document.getElementById("dia3").style.display="block";
+}
+
+if(diff >= 4){
+document.getElementById("dia4").style.display="block";
+}
+
+if(diff >= 6){
+document.getElementById("dia6").style.display="block";
 }
 
 </script>
