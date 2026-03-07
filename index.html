@@ -2,35 +2,60 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Uma surpresa pra você ❤️</title>
+<title>...</title>
 
 <style>
 
 body{
-    margin:0;
-    background: linear-gradient(135deg,#ff4e88,#7a3cff);
-    font-family: Arial;
-    color:white;
-    text-align:center;
+background: linear-gradient(180deg,#000,#1a1a1a);
+color:white;
+font-family: Arial, Helvetica, sans-serif;
+margin:0;
+padding:0;
+text-align:center;
 }
 
 .container{
-    margin-top:80px;
+max-width:700px;
+margin:auto;
+padding:60px 20px;
 }
 
-h1{
-    font-size:40px;
+.section{
+margin-top:120px;
+font-size:20px;
+line-height:1.7;
+white-space:pre-line;
+display:none;
 }
 
-img{
-    width:300px;
-    border-radius:15px;
-    margin-top:20px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.4);
+#timer{
+font-size:40px;
+margin-top:100px;
 }
 
-.box{
-    margin-top:40px;
+#login{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:black;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+}
+
+input{
+padding:10px;
+font-size:18px;
+}
+
+button{
+padding:10px 20px;
+margin-top:10px;
+cursor:pointer;
 }
 
 </style>
@@ -38,69 +63,169 @@ img{
 
 <body>
 
+<div id="login">
+<h2>Digite a senha</h2>
+<input id="senha" type="password">
+<button onclick="check()">Entrar</button>
+</div>
+
 <div class="container">
 
-<h1>Uma surpresa está chegando ❤️</h1>
+<div id="timer"></div>
 
-<h2 id="contador"></h2>
+<div id="dia2" class="section">
 
-<div id="dia2" class="box" style="display:none;">
-<h2>Primeira lembrança</h2>
-<img src="foto1.jpg">
-<p>Esse foi um momento especial pra mim.</p>
+engraçado como algumas pessoas entram na nossa vida
+sem fazer muito barulho
+e quando a gente percebe
+já mudaram tudo.
+
+eu não sei exatamente em qual momento isso aconteceu
+mas em algum ponto
+você se tornou
+uma das partes mais importantes do meu dia.
+
+amanhã eu conto mais.
+
 </div>
 
-<div id="dia3" class="box" style="display:none;">
-<h2>Outro momento lindo</h2>
-<img src="foto2.jpg">
-<p>Cada momento contigo é incrível.</p>
+<div id="dia3" class="section">
+
+tem um momento estranho
+que acontece quando alguém começa
+a se tornar importante pra gente
+
+você começa a perceber
+que aquela pessoa aparece
+em pensamentos aleatórios do dia
+numa música
+numa piada
+num lugar
+
+e quando percebe
+ela já faz parte da sua rotina
+mesmo quando não está por perto
+
+em algum momento
+isso começou a acontecer comigo
+
+e era sempre
+você.
+
+amanhã eu te conto
+uma das coisas que mais gosto em você.
+
 </div>
 
-<div id="dia4" class="box" style="display:none;">
-<h2>Mais uma memória</h2>
-<img src="foto3.jpg">
-<p>Eu amo criar memórias contigo.</p>
+<div id="dia4" class="section">
+
+ontem eu disse que iria te contar
+algumas coisas que eu gosto em você.
+
+mas vamos ser honestos…
+
+você realmente achou
+que seria só uma?
+
+algumas das POUCAS coisas que eu gosto em você:
+
+seu sorriso
+o jeito que você fala das coisas que gosta
+quando você ri de verdade
+seu olhar
+a forma como você me acalma
+seu jeito de implicar comigo
+sua voz
+como você deixa tudo mais leve
+seu carinho
+o fato de você ser você
+...
+
 </div>
 
-<div id="dia6" class="box" style="display:none;">
-<h1>💌 Surpresa Final 💌</h1>
-<p style="font-size:22px; max-width:600px; margin:auto;">
-Desde que você entrou na minha vida tudo ficou mais bonito.
-Esses dias foram só um lembrete de quanto você é especial pra mim.
-❤️
-</p>
+<div id="dia5" class="section">
+
+obrigado por fazer parte desses dias.
+quem sabe a gente se vê por ai.
+
+por aqui, acabou... eu acho.
+
+</div>
+
+<div id="dia6" class="section">
+
+você é bem curiosa ein?
+
+eu disse que tinha acabado.
+
+ja que você tá tão interessada assim
+quero ver o quanto você tá disposta
+a chegar no final dessa historia
+
+vamos pra praia,
+quero ver o nascer do sol com você.
+
 </div>
 
 </div>
 
 <script>
 
-const inicio = new Date("2026-03-04");
-const hoje = new Date();
-
-const diff = Math.floor((hoje - inicio) / (1000*60*60*24)) + 1;
-
-document.getElementById("contador").innerText =
-"Estamos no dia " + diff + " da surpresa";
-
-if(diff >= 2){
-document.getElementById("dia2").style.display="block";
+function check(){
+const s=document.getElementById("senha").value
+if(s==="21/12"){
+document.getElementById("login").style.display="none"
+}else{
+alert("senha errada")
+}
 }
 
-if(diff >= 3){
-document.getElementById("dia3").style.display="block";
+const start=new Date("2026-03-07") // DIA 1
+const now=new Date()
+
+const diff=Math.floor((now-start)/(1000*60*60*24))
+
+const end=new Date(start)
+end.setDate(end.getDate()+6)
+
+function updateTimer(){
+
+const now=new Date()
+const distance=end-now
+
+const days=Math.floor(distance/(1000*60*60*24))
+const hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60))
+const minutes=Math.floor((distance%(1000*60*60))/(1000*60))
+const seconds=Math.floor((distance%(1000*60))/1000)
+
+document.getElementById("timer").innerHTML=
+days+"d "+hours+"h "+minutes+"m "+seconds+"s"
+
 }
 
-if(diff >= 4){
-document.getElementById("dia4").style.display="block";
+setInterval(updateTimer,1000)
+
+if(diff>=1){
+document.getElementById("dia2").style.display="block"
 }
 
-if(diff >= 6){
-document.getElementById("dia6").style.display="block";
+if(diff>=2){
+document.getElementById("dia3").style.display="block"
+}
+
+if(diff>=3){
+document.getElementById("dia4").style.display="block"
+}
+
+if(diff>=4){
+document.getElementById("dia5").style.display="block"
+}
+
+if(diff>=5){
+document.getElementById("dia6").style.display="block"
 }
 
 </script>
 
 </body>
 </html>
-
